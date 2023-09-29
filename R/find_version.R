@@ -18,10 +18,10 @@
 # }
 # 
 # find_cran_version_link('data.table')
-find.package('data.table')
-find.package('Hmisc')
-
-find_installed_package <- function(){
+# find.package('data.table')
+# find.package('Hmisc')
+#'@export
+find_all_installed_package <- function(){
   
   k <- installed.packages()
   k <- k[,c('Package','Version')]
@@ -31,10 +31,11 @@ find_installed_package <- function(){
   
 }
 
-find_installed_location <- function(package){
+#'@export
+find_installed_location <- function(package='data.table'){
   # package <- 'data.table'
   path <- .libPaths()
-  path
+  
   for(i in 1:length(path)){
     p <- basename(fs::dir_ls(path[i]))
     if(package %in% p)
@@ -44,11 +45,10 @@ find_installed_location <- function(package){
   }
 }
 
-find_installed_location('Hmisc')
+#'@export
 
-find_installed_package()
-
-find_installed_version <- function(package){
+find_installed_version <- function(package='data.table'){
+  
   k <- installed.packages()
   k <- k[,c('Package','Version','LibPath')]
   pack <- k[,1]
@@ -61,9 +61,8 @@ find_installed_version <- function(package){
   
 }
 
-find_installed_version('rlang')
-
-find_cran_version <- function(package){
+#'@export
+find_cran_version <- function(package='data.table'){
   
   # package <- 'data.table'
   ll <- pak::pkg_history(pkg=package)
@@ -78,4 +77,3 @@ find_cran_version <- function(package){
         package, '/',package,'_',last,'.tar.gz'))
 }
 
-find_cran_version('data.table')
