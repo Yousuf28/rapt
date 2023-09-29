@@ -47,7 +47,7 @@ find_installed_location <- function(package='data.table'){
 
 #'@export
 
-find_installed_version <- function(package='data.table'){
+find_installed_package_version <- function(package='data.table'){
   
   k <- installed.packages()
   k <- k[,c('Package','Version','LibPath')]
@@ -81,26 +81,72 @@ find_cran_version <- function(package='data.table'){
 
 # subset of package in different location
 
-# find all R version 
+# find all R version installed
+#'@export
+find_all_R_version_installed <- function(){
+  
+  if(grepl('mingw',R.version$os)){
+    
+    k <- fs::dir_ls('C:/Program Files/R/')
+    print(k)
+    l <- fs::dir_ls('C:/Program Files/R/', recurse = T, type = 'file', regexp = 'R.exe$|Rscript.exe$')
+    print(l)
+    
+  } else{
+    if(fs::dir_exists('/opt/R')){
+      
+      print(fs::dir_ls('/opt/R/'))
+    }
+    if(fs::dir_exists('/usr/local/bin/')) {
+      
+      k <- grep('R', fs::dir_ls('/usr/local/bin/'),value=T)
+      print(k)
+    }
+    
+    if(fs::dir_exists('/usr/bin/')){
+      
+      kk <- grep('R',fs::dir_ls('/usr/bin/'),value=T)
+      print(kk)
+    }
+    
+  }
+  
+}
 
 # rversions::r_versions()
-# k <- rversions::r_versions()
-# data.table::setDT(k)
-# k[order(-version),]
+#' @export
+#' 
+#' find R version history
+
+find_R_version_history <- function(n=10){
+k <- rversions::r_versions()
+data.table::setDT(k)
+l <- k[order(-version),]
+print(l,n)
+  
+}
+
 # getRversion()
 # R.version.string
 
 # find all R library for all R version
 
 # install from local or url
-
-find_all_R_version_installed <- function(){
-  
-  #if windows
-  k <- fs::dir_ls('C:/Program Files/R/')
-  print(k)
-  l <- fs::dir_ls('C:/Program Files/R/', recurse = T, type = 'file', regexp = 'R.exe$|Rscript.exe$')
-  print(l)
+#'@export
+install_package_version <- function(package){
+  ll <- pak::pkg_history(pkg=package)
+  ll <- ll$Version
+  print(ll)
+  # str(ll)
+  k <- menu(ll)
+  if(k!=0){
+    
+ k <- ll[k] 
+ print(k)
+ print(paste0('installing :', package, ': version:', k))
+  remotes::install_version(package, version = k)
+    
+  }
 }
 
-find_all_R_version_installed()
+
