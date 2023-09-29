@@ -173,3 +173,6 @@ install_package_version <- function(package){
 }
 
 
+# add pak::search()
+# different versions finder
+# dependency
