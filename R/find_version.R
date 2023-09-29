@@ -77,3 +77,30 @@ find_cran_version <- function(package='data.table'){
         package, '/',package,'_',last,'.tar.gz'))
 }
 
+# remove package from all location
+
+# subset of package in different location
+
+# find all R version 
+
+# rversions::r_versions()
+# k <- rversions::r_versions()
+# data.table::setDT(k)
+# k[order(-version),]
+# getRversion()
+# R.version.string
+
+# find all R library for all R version
+
+# install from local or url
+
+find_all_R_version_installed <- function(){
+  
+  #if windows
+  k <- fs::dir_ls('C:/Program Files/R/')
+  print(k)
+  l <- fs::dir_ls('C:/Program Files/R/', recurse = T, type = 'file', regexp = 'R.exe$|Rscript.exe$')
+  print(l)
+}
+
+find_all_R_version_installed()
