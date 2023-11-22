@@ -176,3 +176,20 @@ install_package_version <- function(package){
 # add pak::search()
 # different versions finder
 # dependency
+#' @title find dependency
+#' @param package character\cr
+#' @export
+find_package_dependencies <- function(package) {
+
+  packrat:::recursivePackageDependencies(package, ignores = '',lib.loc = .libPaths()[1])
+
+}
+
+
+#' @title download source code
+#' @param package character\cr
+#' @export
+download_source_code <- function(package,dir="."){
+  untar(download.packages(package, destdir = dir,type = 'source')[,2])
+
+}
